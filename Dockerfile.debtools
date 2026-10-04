@@ -1,0 +1,16 @@
+# Devtools image for building the kvmrun .deb package.
+#
+# Built by `make deb-tools-image` on top of DEBTOOLS_IMAGE (see Makefile),
+# so the deb build itself does not need network access or apt-get.
+ARG BASE_IMAGE=debian:bookworm
+FROM ${BASE_IMAGE}
+
+LABEL maintainer="sergey@netangels.ru"
+LABEL description="Based on the official build of Debian ${BASE_IMAGE}"
+
+RUN set -ex \
+    && apt-get update \
+    && apt-get --no-install-recommends --yes install \
+        build-essential dpkg-dev debhelper git jq \
+    && apt-get clean \
+    && rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*

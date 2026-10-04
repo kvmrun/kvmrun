@@ -11,11 +11,8 @@ if [[ ! -f "debian/control" ]]; then
     exit 1
 fi
 
-# --- build tools (base image is a standard Debian release) ---
-export DEBIAN_FRONTEND=noninteractive
-
-apt-get update -qq
-apt-get install -y -qq --no-install-recommends build-essential dpkg-dev debhelper git
+# Build tooling (build-essential, dpkg-dev, debhelper, git) is expected to be
+# pre-installed in the kvmrun-deb:devtools image, see Dockerfile.debtools.
 
 # --- version from source ---
 declare -r VER="$(sed -n 's/.*Major: \([0-9]\+\), Minor: \([0-9]\+\), Micro: \([0-9]\+\).*/\1.\2.\3/p' kvmrun/version.go)"

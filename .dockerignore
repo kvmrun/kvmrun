@@ -1,0 +1,6 @@
+# Keep the docker build context small (only used for Dockerfile.debtools;
+# the other docker invocations are `docker run` with volume mounts).
+.git/
+bin/
+packages/
+vendor/

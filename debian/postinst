@@ -21,8 +21,6 @@ case "$1" in
         else
             /usr/lib/kvmrun/gencert
         fi
-
-        systemctl --system daemon-reload >/dev/null || true
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)

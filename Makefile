@@ -2,7 +2,8 @@ PROJECT_NAME := kvmrun
 PROJECT_REPO := github.com/0xef53/$(PROJECT_NAME)
 
 GOLANG_IMAGE := golang:1.25-bookworm
-DEBTOOLS_IMAGE := debian:bookworm
+DEBTOOLS_BASE := debian:bookworm
+DEBTOOLS_CACHE := kvmrun-deb:devtools
 
 CWD := $(shell pwd)
 
@@ -61,7 +62,7 @@ binaries = \
 scripts = \
     scripts/delegate-cgroup-v1-controller
 
-.PHONY: all build clean protobufs $(proto_files)
+.PHONY: all build clean protobufs deb-package deb-tools-image deb-tools-rebuild $(proto_files)
 
 all: build
 
@@ -121,13 +122,27 @@ install: $(binaries)
 	cp -t $(DESTDIR)/usr/share/$(PROJECT_NAME) scripts/mk-debian-image
 	@echo
 
-deb-package: $(binaries)
+# Build the cached devtools image on first use; subsequent `make deb-package`
+# runs reuse it without installing packages via apt.
+deb-tools-image:
+	@if ! docker image inspect $(DEBTOOLS_CACHE) >/dev/null 2>&1; then \
+	echo "Building $(DEBTOOLS_CACHE) from $(DEBTOOLS_BASE)..."; \
+	docker build -t $(DEBTOOLS_CACHE) --build-arg BASE_IMAGE=$(DEBTOOLS_BASE) -f Dockerfile.debtools .; \
+	fi
+
+# Force-rebuild the devtools image (e.g. after changing DEBTOOLS_IMAGE
+# or the tool list in Dockerfile.debtools).
+deb-tools-rebuild:
+	docker rmi -f $(DEBTOOLS_CACHE)
+	docker build -t $(DEBTOOLS_CACHE) --build-arg BASE_IMAGE=$(DEBTOOLS_BASE) -f Dockerfile.debtools .
+
+deb-package: $(binaries) deb-tools-image
 	@echo "##########################"
 	@echo "#  Building deb package  #"
 	@echo "##########################"
 	@echo
 	install -d packages
-	docker run --rm $(DOCKER_DEB_ARGS) $(DEBTOOLS_IMAGE)
+	docker run --rm $(DOCKER_DEB_ARGS) $(DEBTOOLS_CACHE)
 	@echo
 	@echo "==================="
 	@echo "Successfully built:"
