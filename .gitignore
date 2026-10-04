@@ -1,11 +1,17 @@
+# Binaries
 bin/
+*.exe
+
+# Build artifacts
 packages/
-.devcontainer/devcontainer-lock.json
-debian/changelog
-debian/debhelper-build-stamp
-debian/files
-debian/*.debhelper.log
-debian/*.substvars
-debian/kvmrun-tools/
-debian/kvmrun/
+vendor/
+debian/*.log
+
+# Editor / OS
+.idea/
+.vscode/
+.DS_Store
 **/.*.sw[opn]
+
+# devcontainer
+.devcontainer/*-lock.json

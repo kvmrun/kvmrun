@@ -2,7 +2,7 @@ PROJECT_NAME := kvmrun
 PROJECT_REPO := github.com/0xef53/$(PROJECT_NAME)
 
 GOLANG_IMAGE := golang:1.25-bookworm
-DEVTOOLS_IMAGE := 0xef53/debian-dev:bookworm
+DEBTOOLS_IMAGE := debian:bookworm
 
 CWD := $(shell pwd)
 
@@ -49,10 +49,8 @@ protofiles_grpc_gw = \
 
 DOCKER_DEB_ARGS := \
     -w /root/source \
-    -v $(CWD):/root/source:ro \
-    -v $(CWD)/packages:/root/source/packages \
-    -v $(CWD)/scripts/build-deb.sh:/usr/local/bin/build-deb.sh \
-    -e PROJECT_NAME=$(PROJECT_NAME) \
+    -v $(CWD):/root/source \
+    -v $(CWD)/scripts/build-deb.sh:/usr/local/bin/build-deb.sh:ro \
     --entrypoint build-deb.sh
 
 binaries = \
@@ -129,7 +127,7 @@ deb-package: $(binaries)
 	@echo "##########################"
 	@echo
 	install -d packages
-	docker run --rm -i $(DOCKER_DEB_ARGS) $(DEVTOOLS_IMAGE)
+	docker run --rm $(DOCKER_DEB_ARGS) $(DEBTOOLS_IMAGE)
 	@echo
 	@echo "==================="
 	@echo "Successfully built:"

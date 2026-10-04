@@ -2,8 +2,8 @@ Source: kvmrun
 Section: admin
 Priority: extra
 Maintainer: Sergey Zhuravlev <sergey@netangels.ru>
-Build-Depends: cdbs, debhelper (>= 12)
-Standards-Version: 3.9.4
+Build-Depends: debhelper-compat (= 13), dpkg-dev
+Standards-Version: 4.7.0
 
 Package: kvmrun
 Architecture: any

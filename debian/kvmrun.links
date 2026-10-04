@@ -1,0 +1,3 @@
+usr/lib/kvmrun/vnetctl  usr/lib/kvmrun/ifup
+usr/lib/kvmrun/vnetctl  usr/lib/kvmrun/ifdown
+usr/lib/kvmrun/vnetctl  usr/bin/vnetctl

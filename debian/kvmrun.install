@@ -1,0 +1,16 @@
+bin/kvmrund                 usr/lib/kvmrun/
+bin/launcher                usr/lib/kvmrun/
+bin/netinit                 usr/lib/kvmrun/
+bin/vnetctl                 usr/lib/kvmrun/
+bin/gencert                 usr/lib/kvmrun/
+bin/printpci                usr/lib/kvmrun/
+bin/update-kvmrun-package   usr/lib/kvmrun/
+bin/vmm                     usr/bin/
+
+scripts/delegate-cgroup-v1-controller   usr/lib/kvmrun/
+contrib/qemu.wrapper                    usr/lib/kvmrun/
+contrib/kvmrun.ini                      etc/kvmrun/
+contrib/bash-completion/vmm             etc/bash_completion.d/
+scripts/mk-debian-image                 usr/share/kvmrun/
+contrib/kvmrund.service                 lib/systemd/system/
+contrib/kvmrun@.service                 lib/systemd/system/
