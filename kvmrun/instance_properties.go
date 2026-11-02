@@ -8,14 +8,14 @@ import (
 	"github.com/0xef53/kvmrun/internal/version"
 )
 
-var machineNameRe = regexp.MustCompile(`^[0-9A-Za-z_]{3,16}$`)
+var machineNameRe = regexp.MustCompile(`^[0-9A-Za-z_]{2,16}$`)
 
 func ValidateMachineName(name string) error {
 	if machineNameRe.MatchString(name) {
 		return nil
 	}
 
-	return fmt.Errorf("invalid machine name '%s': only [0-9A-Za-z_] are allowed, min length is 3 and max length is 16", name)
+	return fmt.Errorf("invalid machine name '%s': only [0-9A-Za-z_] are allowed, min length is 2 and max length is 16", name)
 }
 
 type InstanceProperties struct {
